@@ -1,16 +1,10 @@
-"""Cryptographic utilities, password hashing with bcrypt, and JWT token management."""
+import hashlib
+import hmac
 import secrets
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Optional, Union
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 from app.core.config import settings
-
-pwd_context = CryptContext(
-    schemes=["bcrypt", "argon2"],
-    deprecated="auto",
-    bcrypt__rounds=12
-)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -18,14 +12,26 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     if not plain_password or not hashed_password:
         return False
     try:
-        return pwd_context.verify(plain_password, hashed_password)
+        if hashed_password.startswith("pbkdf2:"):
+            parts = hashed_password.split("$")
+            if len(parts) == 3:
+                salt = parts[1]
+                expected_hash = parts[2]
+                computed_hash = hashlib.pbkdf2_hmac("sha256", plain_password.encode("utf-8"), salt.encode("utf-8"), 100000).hex()
+                return hmac.compare_digest(expected_hash, computed_hash)
+        # Fallback SHA256 with salt
+        salt = settings.SECRET_KEY[:16]
+        expected = hashlib.sha256(f"{salt}{plain_password}".encode("utf-8")).hexdigest()
+        return hmac.compare_digest(expected, hashed_password)
     except Exception:
         return False
 
 
 def get_password_hash(password: str) -> str:
-    """Generate a secure cryptographic hash for a plaintext password."""
-    return pwd_context.hash(password)
+    """Generate a secure PBKDF2-SHA256 cryptographic hash for a plaintext password."""
+    salt = secrets.token_hex(16)
+    key = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt.encode("utf-8"), 100000).hex()
+    return f"pbkdf2:${salt}${key}"
 
 
 def create_access_token(
@@ -88,19 +94,16 @@ def decode_token(token: str) -> Optional[Dict[str, Any]]:
 
 
 def generate_random_token(length: int = 32) -> str:
-    """Generate a cryptographically secure random hexadecimal token string."""
     return secrets.token_urlsafe(length)
 
 
 def generate_order_number() -> str:
-    """Generate a unique human-friendly order tracking identifier."""
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d")
     random_suffix = secrets.token_hex(4).upper()
     return f"CP-{timestamp}-{random_suffix}"
 
 
 def generate_certificate_code() -> str:
-    """Generate a unique certificate identifier code."""
     timestamp = datetime.now(timezone.utc).strftime("%Y%m")
     unique_suffix = secrets.token_hex(5).upper()
     return f"CERT-CP-{timestamp}-{unique_suffix}"

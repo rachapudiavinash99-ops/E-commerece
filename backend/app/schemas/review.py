@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from app.schemas.user import UserPublicResponse
 
 
@@ -30,5 +30,4 @@ class ReviewResponse(ReviewBase):
     created_at: datetime
     user: Optional[UserPublicResponse] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

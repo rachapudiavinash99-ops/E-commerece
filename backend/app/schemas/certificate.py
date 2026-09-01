@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import ConfigDict, BaseModel
 from app.schemas.course import CourseCardResponse
 from app.schemas.user import UserPublicResponse
 
@@ -17,8 +17,7 @@ class CertificateResponse(BaseModel):
     course: Optional[CourseCardResponse] = None
     user: Optional[UserPublicResponse] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CertificateVerifyResponse(BaseModel):

@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 
 
 class TestCaseBase(BaseModel):
@@ -18,8 +18,7 @@ class TestCaseResponse(TestCaseBase):
     id: int
     task_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CodingTaskBase(BaseModel):
@@ -57,8 +56,7 @@ class CodingTaskResponse(CodingTaskBase):
     id: int
     test_cases: List[TestCaseResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class TaskSubmissionRequest(BaseModel):

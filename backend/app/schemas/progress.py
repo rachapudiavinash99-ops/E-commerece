@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import ConfigDict, BaseModel
 
 
 class LessonProgressUpdate(BaseModel):
@@ -17,8 +17,7 @@ class LessonProgressResponse(BaseModel):
     completed_at: Optional[datetime] = None
     last_accessed_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CourseLearningOverview(BaseModel):

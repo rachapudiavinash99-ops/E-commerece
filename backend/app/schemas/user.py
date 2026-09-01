@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import ConfigDict, BaseModel, EmailStr, Field
 
 
 class UserBase(BaseModel):
@@ -39,8 +39,7 @@ class UserProfileResponse(UserBase):
     updated_at: datetime
     last_login_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserPublicResponse(BaseModel):
@@ -53,8 +52,7 @@ class UserPublicResponse(BaseModel):
     website_url: Optional[str] = None
     github_url: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserAdminUpdateRole(BaseModel):

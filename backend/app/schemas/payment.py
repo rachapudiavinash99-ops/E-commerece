@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import ConfigDict, BaseModel
 
 
 class PaymentInitiateRequest(BaseModel):
@@ -34,5 +34,4 @@ class PaymentResponse(BaseModel):
     payment_method: str
     paid_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

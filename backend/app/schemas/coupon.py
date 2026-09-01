@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 
 
 class CouponBase(BaseModel):
@@ -34,8 +34,7 @@ class CouponResponse(CouponBase):
     id: int
     used_count: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ApplyCouponRequest(BaseModel):

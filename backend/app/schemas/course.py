@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from app.schemas.user import UserPublicResponse
 from app.schemas.topic import TopicResponse
 
@@ -72,8 +72,7 @@ class CourseCardResponse(BaseModel):
     instructor: Optional[UserPublicResponse] = None
     topic: Optional[TopicResponse] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CourseDetailResponse(CourseCardResponse):
@@ -88,8 +87,7 @@ class CourseDetailResponse(CourseCardResponse):
     updated_at: datetime
     published_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CourseFilterParams(BaseModel):

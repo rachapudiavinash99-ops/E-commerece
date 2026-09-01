@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Dict, List, Optional
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 
 
 class QuizOptionBase(BaseModel):
@@ -19,8 +19,7 @@ class QuizOptionResponse(BaseModel):
     option_text: str
     order_index: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class QuizOptionAdminResponse(QuizOptionResponse):
@@ -45,8 +44,7 @@ class QuizQuestionResponse(QuizQuestionBase):
     quiz_id: int
     options: List[QuizOptionResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class QuizBase(BaseModel):
@@ -66,8 +64,7 @@ class QuizResponse(QuizBase):
     id: int
     questions: List[QuizQuestionResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class QuizSubmitRequest(BaseModel):

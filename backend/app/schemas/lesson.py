@@ -1,5 +1,5 @@
 from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 
 
 class LessonResourceBase(BaseModel):
@@ -17,8 +17,7 @@ class LessonResourceCreate(LessonResourceBase):
 class LessonResourceResponse(LessonResourceBase):
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class LessonBase(BaseModel):
@@ -54,8 +53,7 @@ class LessonResponse(LessonBase):
     id: int
     resources: List[LessonResourceResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ModuleWithLessonsResponse(BaseModel):
@@ -67,5 +65,4 @@ class ModuleWithLessonsResponse(BaseModel):
     is_published: bool
     lessons: List[LessonResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

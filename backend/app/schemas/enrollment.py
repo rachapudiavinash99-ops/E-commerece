@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import ConfigDict, BaseModel
 from app.schemas.course import CourseCardResponse
 
 
@@ -15,5 +15,4 @@ class EnrollmentResponse(BaseModel):
     last_accessed_at: datetime
     course: CourseCardResponse
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

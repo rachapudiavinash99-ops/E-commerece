@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import ConfigDict, BaseModel
 from app.schemas.course import CourseCardResponse
 
 
@@ -10,8 +10,7 @@ class CartItemResponse(BaseModel):
     added_at: datetime
     course: CourseCardResponse
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CartResponse(BaseModel):

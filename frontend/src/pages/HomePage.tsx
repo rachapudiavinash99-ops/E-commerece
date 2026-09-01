@@ -188,11 +188,9 @@ export const HomePage: React.FC = () => {
                 <span className="text-emerald-400 font-bold">ALL TESTS PASSED (3/3)</span>
               </div>
               <pre className="text-slate-300 overflow-x-auto leading-relaxed">
-                <span className="text-purple-400">def</span> <span className="text-blue-400">calculate_discount</span>(price: <span className="text-cyan-400">float</span>, percent: <span className="text-cyan-400">float</span>) -&gt; <span className="text-cyan-400">float</span>:
-                  {"
-"}  discount = price * (percent / <span className="text-amber-400">100.0</span>)
-                  {"
-"}  <span className="text-purple-400">return</span> <span className="text-cyan-400">round</span>(price - discount, <span className="text-amber-400">2</span>)
+{`def calculate_discount(price: float, percent: float) -> float:
+    discount = price * (percent / 100.0)
+    return round(price - discount, 2)`}
               </pre>
               <div className="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
                 <span>Execution Time: <strong className="text-white">12.4ms</strong></span>

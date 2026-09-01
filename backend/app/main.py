@@ -58,6 +58,18 @@ app = FastAPI(
 app.add_middleware(RequestLoggingAndTimingMiddleware)
 app.add_middleware(SecurityHeadersMiddleware)
 
+
+@app.get("/", tags=["Health"])
+async def root():
+    return {
+        "status": "healthy",
+        "app_name": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+        "frontend_url": "http://localhost:5173",
+        "docs_url": "http://localhost:8080/docs",
+        "api_base": "http://localhost:8080/api"
+    }
+
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
